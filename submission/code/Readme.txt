@@ -14,6 +14,7 @@ path_out = "path to where the output image should be written to (including the n
 
 After setting the above variables, simply run ```test.py```.
 The model weights are automatically loaded from the ```weights``` file.
+The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file.
 
 ## Test Data
 
