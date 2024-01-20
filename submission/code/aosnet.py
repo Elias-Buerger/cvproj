@@ -2,8 +2,8 @@ import torch.nn as nn
 import torch
 import torch.nn.functional as F
 
-# Gated Encoder-Decoder-Network with Bilinear Upsampling
-# Architecture Adapted from https://github.com/milesial/Pytorch-UNet
+# Gated Encoder-Decoder-Network with Bilinear Upsampling (AOSNet)
+# Architecture Adapted: from https://github.com/milesial/Pytorch-UNet
 
 class DoubleConv(nn.Module):
     def __init__(self, in_channels, out_channels, mid_channels=None, kernel_size=3, padding=1):
@@ -59,12 +59,14 @@ class Up(nn.Module):
 
         return self.conv(x)
 
+
 class Out(nn.Module):
     def __init__(self, in_channels, out_channels):
         super(Out, self).__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=1)
     def forward(self, x):
         return self.conv(x)
+
 
 class AOSNet(nn.Module):
     def __init__(self, n_channels_in, n_channels_out, bilinear=True):
