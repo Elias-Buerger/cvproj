@@ -6,9 +6,11 @@ import torch
 from aosnet import AOSNet
 
 def main():
+    #order of fp doesn't actually matter since model was trained on randomized order
     path_0_1 = 'results/real/FP_0.10.png'
     path_0_4 = 'results/real/FP_0.40.png'
     path_1_5 = 'results/real/FP_1.50.png'
+    
     path_out = 'results/real/output.png'
 
     #load focal stack and augmentations into batch with 1 sample
@@ -28,11 +30,12 @@ def main():
     #load model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = AOSNet(6, 1).to(device)
-    model.load_state_dict(torch.load('aosnet.pth'))
+    model.load_state_dict(torch.load('weights'))
     model.eval()
 
     #run model
-    output = model(batch_data.to(device))[0, 0] #disregard batch and channel dimension
+    with torch.no_grad():
+        output = model(batch_data.to(device))[0, 0] #disregard batch and channel dimension
 
     #save output
     output = Image.fromarray(output.detach().cpu().numpy() * 255)
