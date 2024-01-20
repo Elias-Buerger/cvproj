@@ -1,5 +1,7 @@
 # All-In-Focus Image Restoration from a Focal Stack Using a Gated U-Net with Bilinear Upsampling
 
+Note that this file is written in Markdown notation to improve the layout; consider renaming it to .md.
+
 ## Using/Testing the Model
 
 In order to use (and test) the model please set the following variables inside test.py:
