@@ -13,7 +13,7 @@ path_out = 'path to where the output image should be written to (including the f
 ```
 
 Finally simply run ```test.py```.
-The model weights are automatically loaded from the file ```weights```.
+The model weights are automatically loaded from the ```weights``` file.
 
 ## test data set
 
