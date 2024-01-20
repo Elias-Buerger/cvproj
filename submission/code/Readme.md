@@ -1,6 +1,6 @@
-# All-In-Focus Image Restoration from a Focal Stack with a Gated U-Net with Bilinear Upsampling
+# All-In-Focus Image Restoration from a Focal Stack Using a Gated U-Net with Bilinear Upsampling
 
-## running the model
+## Running the model
 
 In order to test the model please set the following variables inside test.py:
 
