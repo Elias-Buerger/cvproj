@@ -22,8 +22,11 @@ The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the 
 
 ## Test Data
 
-Our test data can be obtained from here: https://drive.google.com/file/d/1jSUXO4N4l6UOH7Uyl0p1_fPa4SE3jSNA/view?usp=drive_link
-The uncompressed .zip file contains roughly 160 GB of images, corresponding to 10% of the entire dataset.
+Our test data can be obtained from here: https://drive.google.com/file/d/1JCaE4zzmF5Dw4JaJaBaY46EpyXfrTGmy/view?usp=drive_link
+The uncompressed .zip file contains roughly 1.5GB of images, corresponding to 10% of the entire dataset.
+
+Our validation data can be obtained from here: https://drive.google.com/file/d/1jSUXO4N4l6UOH7Uyl0p1_fPa4SE3jSNA/view?usp=drive_link
+The uncompressed .zip file contains roughly 1.5GB of images, corresponding to another 10% of the entire dataset.
 
 ## Retraining the Model
 
