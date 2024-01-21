@@ -16,10 +16,10 @@ path_out = "path to where the output image should be written to (including the n
 
 The model was trained on an image size of 512 x 512. The order of the images does not actually matter, since we randomized it during training.
 
-The dpenedencies required to run this model are specified in ```requirements.txt```.  
-Please make sure to use python 3.9. Sadly this can not be set inside ```requirements.txt```.
+The dependencies required to run this model are specified in ```requirements.txt```.  
+Please make sure to use python 3.9. The python version cannot be specified in ```requirements.txt```.
 
-After setting the above variables and installing the dependencies, simply run ```test.py```.
+After setting the above variables and installing the required dependencies, simply run ```test.py```.
 The model weights are automatically loaded from the ```weights``` file.
 The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file.
 
