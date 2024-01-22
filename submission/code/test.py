@@ -42,7 +42,13 @@ def main():
     # Intitialize model and load weights
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = AOSNet(6, 1).to(device)
-    model.load_state_dict(torch.load("weights"))
+    
+    # Load model weights with map_location argument
+    if torch.cuda.is_available():
+        model.load_state_dict(torch.load("weights"))
+    else:
+        # If running on CPU-only machine, load the model weights mapping to "cpu"
+        model.load_state_dict(torch.load("weights", map_location=torch.device("cpu")))
     model.eval()
 
     # Run model
@@ -54,6 +60,3 @@ def main():
     output = Image.fromarray(output)
     output = output.convert("RGB")
     output.save(path_out)
-
-if __name__ == "__main__":
-    main()
