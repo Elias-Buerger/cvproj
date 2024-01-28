@@ -58,7 +58,7 @@ The dataloader can handle two types of data:
 Option 1:
 We assume that the samples (X) and targets (y) are in different directories.
 Samples (X) and targets (y) can be of two formats:
- 1. ".png" images (naming convention: idx_[10, 40, 150].png, e.g., 007_10.png for the 7th image with its focal plane at 10 cm).  This naming convention is hardcoded in the function ```_load_sample()``` in the AOSDataset class
+ 1. ".png" images (naming convention: idx_[10, 40, 150].png, e.g., 007_10.png for the 7th image with its focal plane at 10 cm). This naming convention is hardcoded in the function ```_load_sample()``` in the AOSDataset class
  2. ".npy" files containing one sample each (e.g., three input images in one array, channels first).
 
 Option 2:
@@ -68,7 +68,7 @@ Other Important Remarks:
  1. Samples are divided into train (0.8), validation (0.1), and test (0.1) data (function ```divide()```).
  2. ```AOSDataset```: Loads samples on-demand and applies preprocessing steps (histogram equalization, normalization, random augmentations - see our report for details).
  3. ```DataLoader```: PyTorch class which can be iterated over and handles ```batch_size``` and ```shuffle``` - see function ```load_data()```.
- 4. The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file. (Please keep this file in the same folder as ```train.py```.
+ 4. The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file. (Please keep this file in the same folder as ```train.py```.)
 
 Training Procedure:
 - The number of epochs can be defined in the variable ```num_epochs```.
