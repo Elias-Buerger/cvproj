@@ -29,8 +29,8 @@ After setting the above variables, installing the required dependencies, and dow
 The model weights are automatically loaded from the ```weights``` file.
 The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file.
 
-## Test Data
-Please see the "results" folder for selected examples of integral images as well as the corresponding target and output images (these are also contained in our report). The output of our model for the real focal stack is also provided in the "results" folder. Our test set, i.e., test samples, including the integral images (i.e., input for our model) and the corresponding target and output images can be retrieved from here:
+## Test Data/Results
+Please see the "results" folder for some selected examples of integral images as well as the corresponding target and output images from the test set. The output of our model for the real focal stack is also provided in the "results" folder. All other test samples (i.e., our test set), including the integral images (i.e., input for our model) and the corresponding target and output images (i.e., our results) can be retrieved from here:
 TODO
 
 Our test data, excluding the output images, can also be obtained from here:
@@ -62,13 +62,13 @@ Samples (X) and targets (y) can be of two formats:
 Option 2:
 Specify the path to the ".npy" files as indicated in the code (```np.load(...)```).
 
-Other important remarks:
+Other Important Remarks:
  1. Samples are divided into train (0.8), validation (0.1), and test (0.1) data (function ```divide()```).
  2. ```AOSDataset```: Loads samples on-demand and applies preprocessing steps (histogram equalization, normalization, random augmentations - see our report for details).
  3. ```DataLoader```: PyTorch class which can be iterated over and handles ```batch_size``` and ```shuffle``` - see function ```load_data()```.
  4. The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file. (Please keep this file in the same folder as ```train.py```.
 
-Training:
+Training Procedure:
 - The number of epochs can be defined in the variable ```num_epochs```.
 - We used MSE loss and Adam optimizer with an initial learning rate of 0.001.
 - We also used a (```StepLR```) learning rate sheduler with a step_size 0f 5 and a gamma of 0.5 (i.e., halving the learning rate every 5 epochs).
