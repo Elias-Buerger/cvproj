@@ -47,16 +47,16 @@ The file "train.py" contains the code for training our model.
 
 The file itself is executable, i.e., it contains an "if __name__ == '__main__':" block.
 
-THIS MUST BE EDITED: PATH_TO_X_DIRECTORY (image samples), PATH_TO_Y_DIRECTORY (targets), and SAVE_PATH.
+THIS MUST BE EDITED: SAVE_PATH, X_path and y_path
 
 The dataloader can handle two types of data:
- 1. Option 1: Sample and target images (".png") from image samples ("PATH_TO_X_DIRECTORY") and targets directory ("PATH_TO_Y_DIRECTORY").
- 2. Option 2: Samples and targets as arrays from one single ".npy" file each (i.e., all samples are contained in one file and all targets are also contained in one - different - file).
+ 1. Option 1: Sample and target images (".png" or ".jpg") from image samples ("X_path") and targets directory ("y_path").
+ 2. Option 2: Samples and targets as arrays from one single ".npy" file each (i.e., all samples are contained in one file and all targets are also contained in one - different - file). To activate this option, one needs to set load_on_demand parameter to True when calling AOSDataset class.
 
 Option 1:
 We assume that the samples (X) and targets (y) are in different directories.
 Samples (X) and targets (y) can be of two formats:
- 1. ".png" images (naming convention: idx_[10, 40, 150].png, e.g., 007_10.png for the 7th image with its focal plane at 10 cm).
+ 1. ".png" images (naming convention: idx_[10, 40, 150].png, e.g., 007_10.png for the 7th image with its focal plane at 10 cm).  This naming convention is hardcoded in the function ```_load_sample()``` in the AOSDataset class
  2. ".npy" files containing one sample each (e.g., three input images in one array, channels first).
 
 Option 2:
