@@ -135,10 +135,10 @@ def load_data(X, y, batch_size=6):
     return train_loader, test_loader, val_loader
 
 
-if __name__ == '__main__':
-    SAVE_PATH = "C:/tmp/" # Directory to save the model (and the losses as ".pkl")
-    X_PATH = "C:/tmp/X"
-    Y_PATH = "C:/tmp/y"
+if __name__ == "__main__":
+    SAVE_PATH = "C:/TMP/" # Directory to save the model checkpoint (and the losses as ".pkl")
+    X_PATH = "C:/TMP/X"
+    Y_PATH = "C:/TMP/y"
     
     X = [os.path.join(X_PATH, file) for file in os.listdir(X_PATH) if file.split(".")[0].endswith("_10")]
     y = [os.path.join(Y_PATH, file) for file in os.listdir(Y_PATH)]
@@ -178,8 +178,6 @@ if __name__ == '__main__':
         for batch_idx, (batch_data, batch_targets) in enumerate(
                 tqdm(train_loader, desc=f"[TRAIN] Epoch {epoch + 1}/{num_epochs}", unit="Batches")):
             batch_data, batch_targets = batch_data.to(device), batch_targets.to(device)
-            print(batch_data.shape)
-            print(batch_targets.shape)
             # optimizer.zero_grad()
             outputs = model(batch_data)
             loss = criterion(outputs, batch_targets)
