@@ -33,7 +33,7 @@ The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the 
 The output of our model for the real focal stack is provided in the "results" folder.
 All other test samples (i.e., our test set) can be retrieved from here:  
 https://drive.google.com/file/d/1SrI_lGPr3JWQc5jA2ceQs-Ic3cpgl820/view?usp=sharing  
-The number of the result image corresponds to the number in the test folder (e.g. 1321.png is the prediction for the integrals in folder 1321 inside the test data) 
+The number of the result image corresponds to the number in the test folder (e.g., "1321.png" is the prediction for the integrals in folder "1321" from the test data). 
 
 Our test data, excluding the output images, can also be obtained from here:  
 https://drive.google.com/file/d/1JCaE4zzmF5Dw4JaJaBaY46EpyXfrTGmy/view  
@@ -52,7 +52,7 @@ The file itself is executable, i.e., it contains an "if __name__ == '__main__':"
 NOTE: THE FOLLOWING VARIABLES MUST BE EDITED: SAVE_PATH, X_PATH AND Y_PATH
 
 The dataloader can handle two types of data:
- 1. Option 1: Sample and target images (".png" or ".jpg") from image samples ("X_path") and targets directory ("y_path").
+ 1. Option 1: Sample and target images (".png" or ".jpg") from image samples ("X_PATH") and targets directory ("Y_PATH").
  2. Option 2: Samples and targets as arrays from one single ".npy" file each (i.e., all samples are contained in one file and all targets are also contained in one - different - file). To activate this option, one needs to set load_on_demand parameter to True when calling AOSDataset class.
 
 Option 1:
