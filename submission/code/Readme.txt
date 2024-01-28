@@ -9,11 +9,11 @@ The file "test.py" contains the code for using (testing) our model.
 In order to use the model please set the following variables inside test.py:
 
 ```python
-path_0_1 = "path to a focal plane image 0.1 m above ground"
-path_0_4 = "path to a focal plane image 0.4 m above ground"
-path_1_5 = "path to a focal plane image 1.5 m above ground"
+path_0_1 = "Path to a focal plane image 0.1 m above ground"
+path_0_4 = "Path to a focal plane image 0.4 m above ground"
+path_1_5 = "Path to a focal plane image 1.5 m above ground"
 
-path_out = "path to where the output image should be written to (including the name of the output image)"
+path_out = "Path to where the output image should be written to (including the name of the output image - e.g., output.png)"
 ```
 
 The model was trained on an image size of 512 x 512. The order of the images does not actually matter, since we randomized it during training.
@@ -49,7 +49,7 @@ The file "train.py" contains the code for training our model.
 
 The file itself is executable, i.e., it contains an "if __name__ == '__main__':" block.
 
-THIS MUST BE EDITED: SAVE_PATH, X_path and y_path
+NOTE: THE FOLLOWING VARIABLES MUST BE EDITED: SAVE_PATH, X_PATH AND Y_PATH
 
 The dataloader can handle two types of data:
  1. Option 1: Sample and target images (".png" or ".jpg") from image samples ("X_path") and targets directory ("y_path").
