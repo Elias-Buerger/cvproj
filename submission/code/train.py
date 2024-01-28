@@ -1,27 +1,18 @@
 import os
-import glob
 import random
 import pickle
 
 import numpy as np
-import matplotlib.pyplot as plt
 from PIL import Image
 
 from tqdm import tqdm
-from IPython import display
-
-from sklearn.model_selection import train_test_split
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.nn.functional import relu
 import torch.optim as optim
-from torch.utils.data import DataLoader, Dataset, TensorDataset
-from torch.utils.tensorboard import SummaryWriter
+from torch.utils.data import DataLoader, Dataset
 
-from torchvision import transforms
-import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 
 import aosnet
@@ -36,16 +27,16 @@ class AOSDataset(Dataset):
     def __len__(self):
         return len(self.y)
 
+    # Load and return data on-demand (channels first)
     def _load_sample(self, path, target=False):
-        # return data in channel first mode
-        # this might need to be changed according how the data can be accessed from the drive
-        if path.endswith('.npy'):
+        # NOTE: Might have to be updated according to how the data can be accessed from the drive!
+        if path.endswith(".npy"):
             return np.load(path)
-        elif path.endswith(".png") or path.endswith(".jpg"):  # jpg image
+        elif path.endswith(".png") or path.endswith(".jpg"):
             if target:
                 return np.array(Image.open(path))
             else:
-                return np.concatenate([np.expand_dims(np.array(Image.open(path.split(".")[0].split("_")[0] + f"_{i}.png")), axis=0) for i in [10,40,150]], axis=0)
+                return np.concatenate([np.expand_dims(np.array(Image.open(path.split(".")[0].split("_")[0] + f"_{i}.png")), axis=0) for i in [10, 40, 150]], axis=0)
         else:
             raise NotImplementedError(f"Please implement the _load_sample function for this unknown datatype {path.split('.')[-1]}")
 
@@ -127,7 +118,7 @@ def divide(data):
     return train_data, test_data, val_data
 
 def load_data(X, y, batch_size=6):
-    # data can be either a numpy array or a list of filenames
+    # Data can either be a numpy array or a list of filenames
     X_train, X_test, X_val = divide(X)
     y_train, y_test, y_val = divide(y)
 
@@ -145,22 +136,23 @@ def load_data(X, y, batch_size=6):
 
 
 if __name__ == '__main__':
-    SAVE_PATH = "C:/tmp/"  # for saving the model
-    X_path = "C:/tmp/X"
-    y_path = "C:/tmp/y"
-    X = [os.path.join(X_path, file) for file in os.listdir(X_path) if file.split(".")[0].endswith("_10")]
-    y = [os.path.join(y_path, file) for file in os.listdir(y_path)]
+    SAVE_PATH = "C:/tmp/" # Directory to save the model (and the losses as ".pkl")
+    X_PATH = "C:/tmp/X"
+    Y_PATH = "C:/tmp/y"
+    
+    X = [os.path.join(X_PATH, file) for file in os.listdir(X_PATH) if file.split(".")[0].endswith("_10")]
+    y = [os.path.join(Y_PATH, file) for file in os.listdir(Y_PATH)]
 
-    # alternatively if the data is saved as single numpy array
-    # X = np.load("X_path")
-    # y = np.load("y_path")
+    # Alternatively load X and y from a ".npy" files:
+    # X = np.load("X_PATH")
+    # y = np.load("Y_PATH")
 
     train_loader, test_loader, val_loader = load_data(X, y, batch_size=6)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model = aosnet.AOSNet(6, 1)  # .to(device)
-    #model.load_state_dict(torch.load("path_to_a_trained_model"))  # Load model checkpoint
+    model = aosnet.AOSNet(6, 1)
+    # model.load_state_dict(torch.load("path_to_a_trained_model")) # Load model checkpoint (i.e., weights)
     model.to(device)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
