@@ -1,18 +1,27 @@
 import os
+import glob
 import random
 import pickle
 
 import numpy as np
+import matplotlib.pyplot as plt
 from PIL import Image
 
 from tqdm import tqdm
+from IPython import display
+
+from sklearn.model_selection import train_test_split
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.nn.functional import relu
 import torch.optim as optim
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, TensorDataset
+from torch.utils.tensorboard import SummaryWriter
 
+from torchvision import transforms
+import torchvision.transforms as transforms
 import torchvision.transforms.functional as TF
 
 import aosnet
@@ -27,13 +36,16 @@ class AOSDataset(Dataset):
     def __len__(self):
         return len(self.y)
 
-    # Method to load data on demand
-    def _load_sample(self, path):
-        if path.endswith(".npy"):
-            # Channels first
+    def _load_sample(self, path, target=False):
+        # return data in channel first mode
+        # this might need to be changed according how the data can be accessed from the drive
+        if path.endswith('.npy'):
             return np.load(path)
-        elif path.endswith(".png"): # Alternatively: ".jpg" image
-            return [np.expand_dims(np.array(Image.open(path.split(".")[0] + f"_{i}.png")), axis=0) for i in [10, 40, 150]]
+        elif path.endswith(".png") or path.endswith(".jpg"):  # jpg image
+            if target:
+                return np.array(Image.open(path))
+            else:
+                return np.concatenate([np.expand_dims(np.array(Image.open(path.split(".")[0].split("_")[0] + f"_{i}.png")), axis=0) for i in [10,40,150]], axis=0)
         else:
             raise NotImplementedError(f"Please implement the _load_sample function for this unknown datatype {path.split('.')[-1]}")
 
@@ -47,9 +59,10 @@ class AOSDataset(Dataset):
         return channel_equalized
 
     def __getitem__(self, idx):
+
         if self.load_on_demand:
             data = self._load_sample(self.X[idx])
-            target = self._load_sample(self.y[idx])
+            target = self._load_sample(self.y[idx], target=True)
         else:
             data = self.X[idx]
             target = self.y[idx]
@@ -98,6 +111,7 @@ class AOSDataset(Dataset):
 
         return data, target
 
+
 def divide(data):
     train_ratio = 0.8
     test_ratio = 0.1
@@ -113,7 +127,7 @@ def divide(data):
     return train_data, test_data, val_data
 
 def load_data(X, y, batch_size=6):
-    # Data can either be a numpy array or a list of filenames
+    # data can be either a numpy array or a list of filenames
     X_train, X_test, X_val = divide(X)
     y_train, y_test, y_val = divide(y)
 
@@ -130,25 +144,23 @@ def load_data(X, y, batch_size=6):
     return train_loader, test_loader, val_loader
 
 
-if __name__ == "__main__":
-    PATH_TO_X_DIRECTORY = "C:/"
-    PATH_TO_Y_DIRECTORY = "C:/"
-    SAVE_PATH = "C:/"
+if __name__ == '__main__':
+    SAVE_PATH = "C:/tmp/"  # for saving the model
+    X_path = "C:/tmp/X"
+    y_path = "C:/tmp/y"
+    X = [os.path.join(X_path, file) for file in os.listdir(X_path) if file.split(".")[0].endswith("_10")]
+    y = [os.path.join(y_path, file) for file in os.listdir(y_path)]
 
-    # Load list of image files
-    X = [file for file in os.listdir("{PATH_TO_X_DIRECTORY}") if file.split(".")[0].endswith("_10")]
-    y = os.listdir("{PATH_TO_Y_DIRECTORY}")
-
-    # Alternatively load a ".npy" file, if the data is saved as single numpy array:
-    # X = np.load("PATH_TO_X_IMAGE_ARRAY")
-    # y = np.load("PATH_TO_Y_IMAGE_ARRAY")
+    # alternatively if the data is saved as single numpy array
+    # X = np.load("X_path")
+    # y = np.load("y_path")
 
     train_loader, test_loader, val_loader = load_data(X, y, batch_size=6)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model = aosnet.AOSNet(6, 1)
-    # model.load_state_dict(torch.load("path_to_a_trained_model")) # Load model checkpoint
+    model = aosnet.AOSNet(6, 1)  # .to(device)
+    #model.load_state_dict(torch.load("path_to_a_trained_model"))  # Load model checkpoint
     model.to(device)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -170,26 +182,27 @@ if __name__ == "__main__":
     for epoch in range(start_epoch, num_epochs):
         train_loss = 0.0
         train_psnr = 0.0
-        model.eval()
-        with torch.no_grad():
-            for batch_idx, (batch_data, batch_targets) in enumerate(
-                    tqdm(train_loader, desc=f"[TRAIN] Epoch {epoch + 1}/{num_epochs}", unit="Batches")):
-                batch_data, batch_targets = batch_data.to(device), batch_targets.to(device)
-                optimizer.zero_grad()
-                outputs = model(batch_data)
-                loss = criterion(outputs, batch_targets)
-                loss.backward()
-                optimizer.step()
+        model.train()
+        for batch_idx, (batch_data, batch_targets) in enumerate(
+                tqdm(train_loader, desc=f"[TRAIN] Epoch {epoch + 1}/{num_epochs}", unit="Batches")):
+            batch_data, batch_targets = batch_data.to(device), batch_targets.to(device)
+            print(batch_data.shape)
+            print(batch_targets.shape)
+            # optimizer.zero_grad()
+            outputs = model(batch_data)
+            loss = criterion(outputs, batch_targets)
+            loss.backward()
+            optimizer.step()
 
-                train_loss += loss.item()
+            train_loss += loss.item()
 
-                # Calculate PSNR for each batch
-                mse = F.mse_loss(outputs, batch_targets)
-                psnr = 20 * torch.log10(1.0 / torch.sqrt(mse))
-                train_psnr += psnr.item()
+            # Calculate PSNR for each batch
+            mse = F.mse_loss(outputs, batch_targets)
+            psnr = 20 * torch.log10(1.0 / torch.sqrt(mse))
+            train_psnr += psnr.item()
 
-                del loss, batch_data, batch_targets, outputs, mse, psnr
-                # torch.cuda.empty_cache()
+            del loss, batch_data, batch_targets, outputs, mse, psnr
+            # torch.cuda.empty_cache()
 
         # Calculate average training loss for the epoch
         avg_train_loss = train_loss / len(train_loader)
