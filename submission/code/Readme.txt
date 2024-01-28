@@ -21,20 +21,25 @@ The model was trained on an image size of 512 x 512. The order of the images doe
 The dependencies required to run this model are specified in ```requirements.txt```.  
 Please make sure to use python 3.9. The python version cannot be specified in ```requirements.txt```.
 
-Please download the model weights from:
-Please keep the model weights in the same folder as ```test.py``` (and name the file "weights" - no extension - if necessary).
+Please download the (zipped) model weights from here:
+https://drive.google.com/file/d/1vxUIh9G_EfubtyP4h7nOnT8x5TGjxjJ8/view
+Please put the model weights in the same folder as ```test.py``` (and name the file "weights" - no extension - if necessary).
 
 After setting the above variables, installing the required dependencies, and downloading the model weights, simply run ```test.py```.
 The model weights are automatically loaded from the ```weights``` file.
 The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file.
 
 ## Test Data
+Please see the "results" folder for selected examples of integral images as well as the corresponding target and output images (these are also contained in our report). The output of our model for the real focal stack is also provided in the "results" folder. Our test set, i.e., test samples, including the integral images (i.e., input for our model) and the corresponding target and output images can be retrieved from here:
+TODO
 
-Our test data can be obtained from here: https://drive.google.com/file/d/1JCaE4zzmF5Dw4JaJaBaY46EpyXfrTGmy/view?usp=drive_link.  
-The uncompressed .zip file contains roughly 1.5GB of images, corresponding to 10% of the entire dataset.
+Our test data, excluding the output images, can also be obtained from here:
+https://drive.google.com/file/d/1JCaE4zzmF5Dw4JaJaBaY46EpyXfrTGmy/view
+The uncompressed .zip file contains roughly 1.5GB of images, corresponding to 10% of the entire dataset (3200 samples).
 
-Our validation data can be obtained from here: https://drive.google.com/file/d/1jSUXO4N4l6UOH7Uyl0p1_fPa4SE3jSNA/view?usp=drive_link.  
-The uncompressed .zip file contains roughly 1.5GB of images, corresponding to another 10% of the entire dataset.
+We also provide our validation data, which can be obtained from here:
+https://drive.google.com/file/d/1jSUXO4N4l6UOH7Uyl0p1_fPa4SE3jSNA/view
+The uncompressed .zip file contains roughly 1.5GB of images, corresponding to another 10% of the entire dataset (3200 samples).
 
 ## Training/Retraining the Model (```train.py```)
 
