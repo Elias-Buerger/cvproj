@@ -32,7 +32,7 @@ The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the 
 ## Test Data/Results
 The output of our model for the real focal stack is provided in the "results" folder.
 All other test samples (i.e., our test set) can be retrieved from here:  
-https://drive.google.com/file/d/1SrI_lGPr3JWQc5jA2ceQs-Ic3cpgl820/view?usp=sharing  
+https://drive.google.com/file/d/1SrI_lGPr3JWQc5jA2ceQs-Ic3cpgl820/view  
 The number of the result image corresponds to the number in the test folder (e.g., "1321.png" is the prediction for the integrals in folder "1321" from the test data). 
 
 Our test data, excluding the output images, can also be obtained from here:  
