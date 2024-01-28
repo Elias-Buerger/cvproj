@@ -30,15 +30,17 @@ The model weights are automatically loaded from the ```weights``` file.
 The model architecture (Gated U-Net with Bilinear Upsampling) is defined in the ```aosnet.py``` file.
 
 ## Test Data/Results
-Please see the "results" folder for some selected examples of integral images as well as the corresponding target and output images from the test set. The output of our model for the real focal stack is also provided in the "results" folder. All other test samples (i.e., our test set), including the integral images (i.e., input for our model) and the corresponding target and output images (i.e., our results) can be retrieved from here:
-TODO
+The output of our model for the real focal stack is provided in the "results" folder.
+All other test samples (i.e., our test set) can be retrieved from here:  
+https://drive.google.com/file/d/1SrI_lGPr3JWQc5jA2ceQs-Ic3cpgl820/view?usp=sharing  
+The number of the result image corresponds to the number in the test folder (e.g. 1321.png is the prediction for the integrals in folder 1321 inside the test data) 
 
-Our test data, excluding the output images, can also be obtained from here:
-https://drive.google.com/file/d/1JCaE4zzmF5Dw4JaJaBaY46EpyXfrTGmy/view
+Our test data, excluding the output images, can also be obtained from here:  
+https://drive.google.com/file/d/1JCaE4zzmF5Dw4JaJaBaY46EpyXfrTGmy/view  
 The uncompressed .zip file contains roughly 1.5GB of images, corresponding to 10% of the entire dataset (3200 samples).
 
-We also provide our validation data, which can be obtained from here:
-https://drive.google.com/file/d/1jSUXO4N4l6UOH7Uyl0p1_fPa4SE3jSNA/view
+We also provide our validation data, (without output images) which can be obtained from here:
+https://drive.google.com/file/d/1jSUXO4N4l6UOH7Uyl0p1_fPa4SE3jSNA/view  
 The uncompressed .zip file contains roughly 1.5GB of images, corresponding to another 10% of the entire dataset (3200 samples).
 
 ## Training/Retraining the Model (```train.py```)
