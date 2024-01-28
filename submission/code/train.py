@@ -47,7 +47,6 @@ class AOSDataset(Dataset):
         return channel_equalized
 
     def __getitem__(self, idx):
-
         if self.load_on_demand:
             data = self._load_sample(self.X[idx])
             target = self._load_sample(self.y[idx])
